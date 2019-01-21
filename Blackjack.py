@@ -1,4 +1,4 @@
-# My crappy Blackjack game created on January 8th 2018
+# A personal project of mine for practice
 
 import random
 

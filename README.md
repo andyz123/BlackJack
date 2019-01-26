@@ -6,4 +6,4 @@ Actions available include "Hit" and "Stand". When Hit, player draws a card. If S
 
 Finally, the player is given the option to continue when a winner has been declared and will be required to choose their next wager. Of course, this assumes the player still has chips remaining :). If the option to play again is no, the game ends.
 
-Thoughts: The game ended up containing more lines than I thought. I feel I could've shortened some code here and there. I definitely should've documented.
+Thoughts: The game ended up containing more lines than I thought. I feel I could've shortened some code here and there. I should've documented.

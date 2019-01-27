@@ -1,13 +1,11 @@
-# A personal project of mine for practice
 
 import random
+from time import sleep
 
 suits = ('♦', '♣', '♥', '♠')
 ranks = ('Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Jack','Queen','King','Ace')
 values = {'Two': 2, 'Three': 3, 'Four': 4, 'Five': 5, 'Six': 6, 'Seven': 7, 'Eight': 8, 'Nine': 9, 'Ten': 10, 'Jack': 10,
           'Queen': 10, 'King': 10, 'Ace': 11}
-
-playing = True
 
 
 class Card:
@@ -79,7 +77,7 @@ def take_bet():
     taken = False
     while not taken:
         try:
-            bet = int(input("How much would you like to bet? "))
+            bet = int(input("How much would you like to bet? You cannot bet more than you have."))
         except BaseException:
             print('Please give me an integer amount: ')
             continue
@@ -113,36 +111,49 @@ def hit_or_stand(deck, hand):
         print('\n' * 2)
         question = input('Would you like to Hit or Stand? ')
         if question.lower() == 'hit':
-            hit(deck, hand)
-            hit_stand = True
+        	print('You draw...\n')
+        	sleep(2)
+        	hit(deck, hand)
+        	print(f'You drew a [{player.cards[-1]}]\n')
+        	hit_stand = True
         elif question.lower() == 'stand':
             playing = False
             hit_stand = True
 
 
 def show_some(player, dealer):
-    print("The Dealer's cards are: \n[Hidden]")
+    print("The Dealer's cards are:") 
+    print('\n')
+    print('[Hidden]')
     for i in range(1, len(dealer.cards)):
         print('[' + str(dealer.cards[i]) + ']')
+    print('\n')
     print('-------------------------')
     print('Your cards are: ')
+    print('\n')
     for n in range(len(player.cards)):
         print('[' + str(player.cards[n]) + ']')
-
+    print('\n')
+    print(f'Your value is: {player.value}')
 
 def show_all(player, dealer):
     print("The Dealer's cards are: ")
+    print('\n')
     for i in range(len(dealer.cards)):
         print('[' + str(dealer.cards[i]) + ']')
+    print('\n')
+    print(f'Dealer value is: {dealer.value}')
     print('-------------------------')
     print('Your cards are: ')
+    print('\n')
     for n in range(len(player.cards)):
         print('[' + str(player.cards[n]) + ']')
-
+    print('\n')
+    print(f'Your value is: {player.value}')
 
 def player_busts():
     player.value = 0
-
+    print('You bust! Your value is now 0.')
 
 def player_wins():
     if dealer.value < player.value and player.value < 22:
@@ -152,6 +163,7 @@ def player_wins():
 
 def dealer_busts():
     dealer.value = 0
+    print('Dealer Busts!')
 
 
 def dealer_wins():
@@ -180,8 +192,9 @@ def replay():
     return yes_no
 
 
-print('Welcome to BlackJack!')
+print('Welcome to BlackJack!\n')
 total = take_total()
+playing = True
 while True:
 
     deck = Deck()
@@ -197,17 +210,14 @@ while True:
     while bet > total:
         bet = take_bet()
     player_chips = Chips(total, bet)
-
-    show_some(player, dealer)
-    print(f'Your value is: {player.value}')
+    print('\n')
+    
+    
 
     while playing:
-
-        hit_or_stand(deck, player)
-
         show_some(player, dealer)
-        print(f'Your value is: {player.value}')
-
+        hit_or_stand(deck, player)
+        
         if player.value > 21:
             player_busts()
             break
@@ -219,12 +229,15 @@ while True:
 
     while dealer.value < 18 and player.value != 0:
         hit(deck, dealer)
-
-        print('\n')
+        print('\nDealer draws...')
+        sleep(3)
+        print(f'Dealer drew a [{dealer.cards[-1]}]\n')
         show_all(player, dealer)
+        
 
         if dealer.value > 21:
             dealer_busts()
+            player_wins()
             break
     if dealer.value >= 17 and player.value != 0:
         if player_wins():

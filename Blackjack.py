@@ -69,7 +69,7 @@ class Chips:
         self.bet = bet
 
     def win_bet(self):
-        self.total += self.total + self.bet
+        self.total = self.total + self.bet
 
     def lose_bet(self):
         self.total = self.total - self.bet

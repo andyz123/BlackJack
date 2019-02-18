@@ -1,4 +1,3 @@
-
 import random
 from time import sleep
 
@@ -191,70 +190,73 @@ def replay():
 
     return yes_no
 
+def play():
+    print('Welcome to BlackJack!\n')
+    total = take_total()
+    playing = True
+    while True:
 
-print('Welcome to BlackJack!\n')
-total = take_total()
-playing = True
-while True:
+        deck = Deck()
+        deck.shuffle()
+        player = Hand()
+        dealer = Hand()
+        player.add_card(deck.deal())
+        dealer.add_card(deck.deal())
+        player.add_card(deck.deal())
+        dealer.add_card(deck.deal())
 
-    deck = Deck()
-    deck.shuffle()
-    player = Hand()
-    dealer = Hand()
-    player.add_card(deck.deal())
-    dealer.add_card(deck.deal())
-    player.add_card(deck.deal())
-    dealer.add_card(deck.deal())
-
-    bet = take_bet()
-    while bet > total:
         bet = take_bet()
-    player_chips = Chips(total, bet)
-    print('\n')
-    
-    
-
-    while playing:
-        show_some(player, dealer)
-        hit_or_stand(deck, player)
+        while bet > total:
+            bet = take_bet()
+        player_chips = Chips(total, bet)
+        print('\n')
         
-        if player.value > 21:
-            player_busts()
-            break
-    print('\n')
-    show_all(player, dealer)
-    print('\n')
-    if player.value == 0:
-        dealer_wins()
+        
 
-    while dealer.value < 18 and player.value != 0:
-        hit(deck, dealer)
-        print('\nDealer draws...')
-        sleep(3)
-        print(f'Dealer drew a [{dealer.cards[-1]}]\n')
+        while playing:
+            show_some(player, dealer)
+            hit_or_stand(deck, player)
+            
+            if player.value > 21:
+                player_busts()
+                break
+        print('\n')
         show_all(player, dealer)
-        
+        print('\n')
+        if player.value == 0:
+            dealer_wins()
 
-        if dealer.value > 21:
-            dealer_busts()
-            player_wins()
-            break
-    if dealer.value >= 17 and player.value != 0:
-        if player_wins():
-            break
-        elif dealer_wins():
-            break
-        if push():
-            break
+        while dealer.value < 18 and player.value != 0:
+            hit(deck, dealer)
+            print('\nDealer draws...')
+            sleep(2)
+            print(f'Dealer drew a [{dealer.cards[-1]}]\n')
+            show_all(player, dealer)
+            
 
-    print("\n")
+            if dealer.value > 21:
+                dealer_busts()
+                player_wins()
+                break
+        if dealer.value >= 17 and player.value != 0:
+            if player_wins():
+                break
+            elif dealer_wins():
+                break
+            if push():
+                break
 
-    if not replay():
-        print(
-            f'Thank for playing!! You started with {total} this round and now have {player_chips.total}. ')
-        if player_chips.total < 0:
-            print(f'You owe us {abs(player_chips.total)}.')
-        break
-    else:
-        total = player_chips.total
-        playing = True
+        print("\n")
+
+        if not replay():
+            print(
+                f'Thank for playing!! You started with {total} this round and now have {player_chips.total}. ')
+            if player_chips.total < 0:
+                print(f'You owe us {abs(player_chips.total)}.')
+            break
+        else:
+            total = player_chips.total
+            playing = True
+
+if __name__ == '__main__':
+    play()

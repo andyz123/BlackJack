@@ -193,9 +193,10 @@ def replay():
 def play():
     print('Welcome to BlackJack!\n')
     total = take_total()
+    # Controls the game loop
     playing = True
     while True:
-
+        # Initial game set-up, player drawing cards.
         deck = Deck()
         deck.shuffle()
         player = Hand()
@@ -205,6 +206,7 @@ def play():
         player.add_card(deck.deal())
         dealer.add_card(deck.deal())
 
+        # Take player's bet
         bet = take_bet()
         while bet > total:
             bet = take_bet()
@@ -212,7 +214,7 @@ def play():
         print('\n')
         
         
-
+        # Plays until player decide to stand or bust
         while playing:
             show_some(player, dealer)
             hit_or_stand(deck, player)
@@ -226,6 +228,7 @@ def play():
         if player.value == 0:
             dealer_wins()
 
+        # If dealer's hand is below 18, dealer's turn begins
         while dealer.value < 18 and player.value != 0:
             hit(deck, dealer)
             print('\nDealer draws...')
@@ -238,6 +241,7 @@ def play():
                 dealer_busts()
                 player_wins()
                 break
+        # If both party hasn't bust, the hand with the higher value wins
         if dealer.value >= 17 and player.value != 0:
             if player_wins():
                 break
@@ -246,8 +250,10 @@ def play():
             if push():
                 break
 
+        # Shows both hands
         print("\n")
 
+        # Asks if player wants to go again.
         if not replay():
             print(
                 f'Thank for playing!! You started with {total} this round and now have {player_chips.total}. ')
@@ -258,5 +264,6 @@ def play():
             total = player_chips.total
             playing = True
 
+# Executes the game.
 if __name__ == '__main__':
     play()

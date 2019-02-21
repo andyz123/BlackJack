@@ -6,7 +6,7 @@ ranks = ('Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Jack','
 values = {'Two': 2, 'Three': 3, 'Four': 4, 'Five': 5, 'Six': 6, 'Seven': 7, 'Eight': 8, 'Nine': 9, 'Ten': 10, 'Jack': 10,
           'Queen': 10, 'King': 10, 'Ace': 11}
 
-
+# Card object
 class Card:
     def __init__(self, suit, rank):
         self.suit = suit
@@ -15,9 +15,10 @@ class Card:
     def __str__(self):
         return (f'{self.rank}{self.suit}')
 
-
+# Deck object
 class Deck:
     def __init__(self):
+        # Adds cards into deck with suits and number on them.
         self.deck = []
         for suit in suits:
             for rank in ranks:
@@ -41,7 +42,7 @@ class Deck:
         else:
             print('The deck is empty!')
 
-
+# Hand object
 class Hand:
     def __init__(self):
         self.cards = []
@@ -54,12 +55,13 @@ class Hand:
         if card.rank == 'Ace':
             self.aces += 1
 
+    # Ace will either be a 1 or 11.
     def adjust_for_ace(self):
         while self.value > 21 and self.aces:
             self.value -= 10
             self.aces -= 1
 
-
+# Chip object
 class Chips:
     def __init__(self, total=0, bet=0):
         self.total = total
@@ -71,7 +73,7 @@ class Chips:
     def lose_bet(self):
         self.total = self.total - self.bet
 
-
+# Asks player how much they would like to bet.
 def take_bet():
     taken = False
     while not taken:
@@ -84,7 +86,7 @@ def take_bet():
             taken = True
     return bet
 
-
+# Asks player how many chips they would like to begin with.
 def take_total():
     taken = False
     while not taken:
@@ -97,12 +99,12 @@ def take_total():
             taken = True
     return total
 
-
+# Receives a card from the deck.
 def hit(deck, hand):
     hand.add_card(deck.deal())
     hand.adjust_for_ace()
 
-
+# Asks player if they want to hit or stand.
 def hit_or_stand(deck, hand):
     global playing
     hit_stand = False
@@ -119,7 +121,7 @@ def hit_or_stand(deck, hand):
             playing = False
             hit_stand = True
 
-
+# One of the dealer's card is to remain facedown.
 def show_some(player, dealer):
     print("The Dealer's cards are:") 
     print('\n')
@@ -135,6 +137,7 @@ def show_some(player, dealer):
     print('\n')
     print(f'Your value is: {player.value}')
 
+# Shows every card dealt.
 def show_all(player, dealer):
     print("The Dealer's cards are: ")
     print('\n')
@@ -150,32 +153,34 @@ def show_all(player, dealer):
     print('\n')
     print(f'Your value is: {player.value}')
 
+# Player's hand exceeds 21
 def player_busts():
     player.value = 0
     print('You bust! Your value is now 0.')
 
+# Player wins
 def player_wins():
     if dealer.value < player.value and player.value < 22:
         print('Player wins!')
         return player_chips.win_bet()
 
-
+# Dealer's hand exceeds 21
 def dealer_busts():
     dealer.value = 0
     print('Dealer Busts!')
 
-
+# Dealer wins
 def dealer_wins():
     if player.value < dealer.value and dealer.value < 22:
         print('Dealer wins!')
         return player_chips.lose_bet()
 
-
+# The game is tied.
 def push():
     if dealer.value == player.value:
         print('It is a push!')
 
-
+# Asks if the player would like to replay or not.
 def replay():
     yes_no = False
     while not yes_no:
@@ -190,6 +195,7 @@ def replay():
 
     return yes_no
 
+# Controls the logic of the game.
 def play():
     print('Welcome to BlackJack!\n')
     total = take_total()

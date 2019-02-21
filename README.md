@@ -1,4 +1,6 @@
-This is a Blackjack game that I've made to practice object oriented programming and error handling with Python.
+# Hello!
+This is the classic Blackjack game written in pure Python.
+## For those who are unfamiliar with Blackjack
 The player is allowed to choose any amount of chips to begin and any amount of chips to wager per round, as long as it does not exceed the player's starting chip.
 
 Per normal game rules, if exceeding a total of 21, that party busts. Ace can act as 1 or 11 depending on current amount in hand.
